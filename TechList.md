@@ -1,1 +1,2 @@
-UI lib: [Nuklear](https://lib.rs/crates/nuki)
+- UI crate: Egui
+- Networking crate(s): Tokio, Axum/Poem/Actix
