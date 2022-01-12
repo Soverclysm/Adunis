@@ -16,4 +16,4 @@
   - Rolls should be able to be done by commands manually if needed
   - Rolls should be able to be put on a macro which is easy to setup and use
   - All rolls done from macros and CCS should be able to be done both for only the roller to see, and for it to be automatically given in the chat system
-- Character icon creator
+- Character icon creator, similar to [Hero Forge](www.heroforge.com) but very focussed
