@@ -1,19 +1,20 @@
 use eframe::{egui, epi};
 
-//mod menuinterface_main; Why doesn't this work??
+use super::menuinterface_main::MenuInterfaceMain;
 
 /// We derive Deserialize/Serialize so we can persist app state on shutdown.
 #[cfg_attr(feature = "persistence", derive(serde::Deserialize, serde::Serialize))]
 #[cfg_attr(feature = "persistence", serde(default))] // if we add new fields, give them default values when deserializing old state
 // Struct here if needed
 pub struct DndthingApp {
-    
+    interface: MenuInterfaceMain
 }
 
 // Impl here if needed
 impl Default for DndthingApp {
     fn default() -> Self {
         Self {
+            interface: MenuInterfaceMain {}
         }
     }
 }
@@ -74,13 +75,16 @@ impl epi::App for DndthingApp {
                 ui.add_space(space);
                 ui.heading("dndthing");
                 if ui.button("Play").clicked() {  
-
+                    self.interface.play();
                 }
                 if ui.button("Create").clicked() {  
+                    self.interface.create();
                 }
                 if ui.button("Settings").clicked() {  
+                    self.interface.settings();
                 }
-                if ui.button("Quit").clicked() {  
+                if ui.button("Exit").clicked() {  
+                    self.interface.exit();
                 }
             });
 

@@ -1,24 +1,24 @@
 
 
-pub struct MenuInterfacewMain {
+pub struct MenuInterfaceMain {
 
 }
 
-impl MenuInterfacewMain {
+impl MenuInterfaceMain {
 
-    fn play() {
-
-    }
-
-    fn create() {
+    pub fn play(&self) {
 
     }
 
-    fn settings() {
+    pub fn create(&self) {
 
     }
 
-    fn exit() {
+    pub fn settings(&self) {
+
+    }
+
+    pub fn exit(&self) {
 
     }
 

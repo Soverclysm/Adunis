@@ -1,5 +1,6 @@
 
 mod menufront_main; // Class for frontend of main menu
+mod menuinterface_main;
 
 fn main() {
 
