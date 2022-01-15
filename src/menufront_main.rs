@@ -1,10 +1,13 @@
 use eframe::{egui, epi};
 
+//mod menuinterface_main; Why doesn't this work??
+
 /// We derive Deserialize/Serialize so we can persist app state on shutdown.
 #[cfg_attr(feature = "persistence", derive(serde::Deserialize, serde::Serialize))]
 #[cfg_attr(feature = "persistence", serde(default))] // if we add new fields, give them default values when deserializing old state
 // Struct here if needed
 pub struct DndthingApp {
+    
 }
 
 // Impl here if needed
@@ -71,6 +74,7 @@ impl epi::App for DndthingApp {
                 ui.add_space(space);
                 ui.heading("dndthing");
                 if ui.button("Play").clicked() {  
+
                 }
                 if ui.button("Create").clicked() {  
                 }
