@@ -40,6 +40,18 @@ impl epi::App for DndthingApp {
         if let Some(storage) = _storage {
             *self = epi::get_value(storage, epi::APP_KEY).unwrap_or_default()
         }
+
+        let mut fonts = egui::FontDefinitions::default();
+
+        fonts.family_and_size.insert(
+        egui::TextStyle::Button,
+        (egui::FontFamily::Proportional, 20.0));
+
+        fonts.family_and_size.insert(
+            egui::TextStyle::Heading,
+            (egui::FontFamily::Proportional, 24.0));
+
+        _ctx.set_fonts(fonts);
     }
 
     /// Called by the frame work to save state before shutdown.
@@ -51,7 +63,7 @@ impl epi::App for DndthingApp {
 
     /// Called each time the UI needs repainting, which may be many times per second.
     /// Put your widgets into a `SidePanel`, `TopPanel`, `CentralPanel`, `Window` or `Area`.
-    fn update(&mut self, ctx: &egui::CtxRef, frame: &epi::Frame) {
+    fn update(&mut self, ctx: &egui::CtxRef, _frame: &epi::Frame) {
         let Self { label, value } = self;
 
         // Examples of how to create different panels and windows.
@@ -59,6 +71,7 @@ impl epi::App for DndthingApp {
         // Tip: a good default choice is to just keep the `CentralPanel`.
         // For inspiration and more examples, go to https://emilk.github.io/egui
 
+        /*
         egui::TopBottomPanel::top("top_panel").show(ctx, |ui| {
             // The top panel is often a good place for a menu bar:
             egui::menu::bar(ui, |ui| {
@@ -69,7 +82,9 @@ impl epi::App for DndthingApp {
                 });
             });
         });
+        */
 
+        /*
         egui::SidePanel::left("side_panel").show(ctx, |ui| {
             ui.heading("Side Panel");
 
@@ -93,26 +108,31 @@ impl epi::App for DndthingApp {
                 });
             });
         });
+        */
 
         egui::CentralPanel::default().show(ctx, |ui| {
             // The central panel the region left after adding TopPanel's and SidePanel's
-
-            ui.heading("eframe template");
-            ui.hyperlink("https://github.com/emilk/eframe_template");
-            ui.add(egui::github_link_file!(
-                "https://github.com/emilk/eframe_template/blob/master/",
-                "Source code."
-            ));
             egui::warn_if_debug_build(ui);
+
+            ui.vertical_centered(|ui| {
+                //ui.style_mut().spacing.item_spacing = vec2::new(5.0, 5.0);
+                let space = ui.available_height() / 2.5;
+                ui.add_space(space);
+                ui.heading("dndthing");
+                if ui.button("Play").clicked() {  
+                }
+                if ui.button("Create").clicked() {  
+                }
+                if ui.button("Settings").clicked() {  
+                }
+                if ui.button("Quit").clicked() {  
+                }
+            });
+
+           
+            
+
         });
 
-        if false {
-            egui::Window::new("Window").show(ctx, |ui| {
-                ui.label("Windows can be moved by dragging them.");
-                ui.label("They are automatically sized based on contents.");
-                ui.label("You can turn on resizing and scrolling if you like.");
-                ui.label("You would normally chose either panels OR windows.");
-            });
-        }
     }
 }
