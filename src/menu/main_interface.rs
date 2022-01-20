@@ -1,10 +1,10 @@
 
 
-pub struct MenuInterfaceMain {
+pub struct MainInterface {
 
 }
 
-impl MenuInterfaceMain {
+impl MainInterface {
 
     pub fn play(&self) {
 

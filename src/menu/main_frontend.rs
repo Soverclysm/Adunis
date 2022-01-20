@@ -1,25 +1,24 @@
 use eframe::{egui, epi};
-
-use super::menuinterface_main::MenuInterfaceMain;
+use super::main_interface::MainInterface;
 
 /// We derive Deserialize/Serialize so we can persist app state on shutdown.
 #[cfg_attr(feature = "persistence", derive(serde::Deserialize, serde::Serialize))]
 #[cfg_attr(feature = "persistence", serde(default))] // if we add new fields, give them default values when deserializing old state
 // Struct here if needed
-pub struct DndthingApp {
-    interface: MenuInterfaceMain
+pub struct App {
+    interface: MainInterface
 }
 
 // Impl here if needed
-impl Default for DndthingApp {
+impl Default for App {
     fn default() -> Self {
         Self {
-            interface: MenuInterfaceMain {}
+            interface: MainInterface {}
         }
     }
 }
 
-impl epi::App for DndthingApp {
+impl epi::App for App {
     fn name(&self) -> &str {
         "dndthing" // Name displayed in the OS bar of the window
     }
