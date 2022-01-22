@@ -63,16 +63,19 @@ impl epi::App for App {
     fn update(&mut self, ctx: &egui::CtxRef, _frame: &epi::Frame) {
         //let Self { label, value } = self; This line is not necessary until the struct is necessary
 
-        egui::CentralPanel::default().show(ctx, |ui| {
-
-            egui::warn_if_debug_build(ui); // Display in the top left if the current build is a debug build
-
-            // Create the central menu selection
+        
+        egui::SidePanel::left("side_panel").resizable(false).show(ctx, |ui| {
+            egui::warn_if_debug_build(ui);
+            let _width_space = ui.available_width() / 2.0;
+            ui.set_width(300.0);
             ui.vertical_centered(|ui| {
-                let space = ui.available_height() / 2.5;
+                let space = ui.available_height() / 4.0;
                 ui.style_mut().spacing.item_spacing = egui::Vec2::new(space / 12.0, space / 12.0);
+                ui.style_mut().spacing.button_padding = egui::Vec2::new(space / 12.0, space / 20.0);
+                //ui.shrink_width_to_current(); trying to get the fucking buttons to all be the same width but no property for some reason fuck sake
                 ui.add_space(space);
                 ui.heading("dndthing");
+                ui.add_space(space / 5.0);
                 if ui.button("Play").clicked() {  
                     self.interface.play();
                 }
@@ -87,8 +90,17 @@ impl epi::App for App {
                 }
             });
 
-           
-            
+        });
+
+        egui::CentralPanel::default().show(ctx, |ui| {
+
+            let texture_id = egui::TextureId::Egui; // I don't know how to make this an actual iamge, I don't even know if it's possible
+
+            ui.vertical_centered(|ui| {
+                let space = ui.available_height() / 7.0;
+                ui.add_space(space);
+                ui.image(texture_id, [ui.available_width() / 2.0, ui.available_width() / 2.0]);
+            });
 
         });
 
