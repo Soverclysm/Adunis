@@ -6,7 +6,7 @@ use super::main_interface::MainInterface;
 #[cfg_attr(feature = "persistence", serde(default))] // if we add new fields, give them default values when deserializing old state
 // Struct here if needed
 pub struct App {
-    interface: MainInterface
+    interface: MainInterface,
 }
 
 // Impl here if needed
@@ -36,21 +36,6 @@ impl epi::App for App {
             *self = epi::get_value(storage, epi::APP_KEY).unwrap_or_default()
         }
 
-        // Get font
-        let mut fonts = egui::FontDefinitions::default();
-
-        // Set button font size to 20pt
-        fonts.family_and_size.insert(
-        egui::TextStyle::Button,
-        (egui::FontFamily::Proportional, 20.0));
-
-        // Set heading font size to 28pt
-        fonts.family_and_size.insert(
-            egui::TextStyle::Heading,
-            (egui::FontFamily::Proportional, 28.0));
-
-        // Apply font size and family changes
-        _ctx.set_fonts(fonts);
     }
 
     // Called by the frame work to save state before shutdown
@@ -63,11 +48,28 @@ impl epi::App for App {
     fn update(&mut self, ctx: &egui::CtxRef, _frame: &epi::Frame) {
         //let Self { label, value } = self; This line is not necessary until the struct is necessary
 
+        let window_bounds = ctx.available_rect();
+        let window_width = window_bounds.max.x - window_bounds.min.x;
+
+        // Get font
+        let mut fonts = egui::FontDefinitions::default();
+
+        // Set button font size to 20pt
+        fonts.family_and_size.insert(
+        egui::TextStyle::Button,
+        (egui::FontFamily::Proportional, window_width / 36.0));
+
+        // Set heading font size to 28pt
+        fonts.family_and_size.insert(
+            egui::TextStyle::Heading,
+            (egui::FontFamily::Proportional, window_width / 30.0));
+
+        // Apply font size and family changes
+        ctx.set_fonts(fonts);
         
         egui::SidePanel::left("side_panel").resizable(false).show(ctx, |ui| {
             egui::warn_if_debug_build(ui);
-            let _width_space = ui.available_width() / 2.0;
-            ui.set_width(300.0);
+            ui.set_width(window_width / 3.4);
             ui.vertical_centered(|ui| {
                 let space = ui.available_height() / 4.0;
                 ui.style_mut().spacing.item_spacing = egui::Vec2::new(space / 12.0, space / 12.0);
@@ -88,6 +90,15 @@ impl epi::App for App {
                 if ui.button("Exit").clicked() {  
                     self.interface.exit();
                 }
+                // Dark/light mode shit
+                //let mut visuals = ui.visuals_mut().clone();
+                //visuals.light_dark_radio_buttons(ui);
+                //*ui.visuals_mut() = visuals;
+                //if ui.button("mode").clicked() {
+                    //egui::style::Visuals::light();
+                    //*ui.visuals_mut() = egui::style::Visuals::light();
+                    //println!("light mode enabled!");
+                //}
             });
 
         });

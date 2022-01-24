@@ -1,4 +1,4 @@
-
+use std::process;
 
 pub struct MainInterface {
 
@@ -19,7 +19,7 @@ impl MainInterface {
     }
 
     pub fn exit(&self) {
-
+        process::exit(0);
     }
 
 }
