@@ -1,5 +1,6 @@
 use eframe::{egui, epi};
 use super::main_interface::MainInterface;
+use egui::Visuals;
 
 /// We derive Deserialize/Serialize so we can persist app state on shutdown.
 #[cfg_attr(feature = "persistence", derive(serde::Deserialize, serde::Serialize))]
@@ -7,20 +8,22 @@ use super::main_interface::MainInterface;
 // Struct here if needed
 pub struct App {
     interface: MainInterface,
+    dark_mode: bool
 }
 
 // Impl here if needed
 impl Default for App {
     fn default() -> Self {
         Self {
-            interface: MainInterface {}
+            interface: MainInterface {},
+            dark_mode: true
         }
     }
 }
 
 impl epi::App for App {
     fn name(&self) -> &str {
-        "dndthing" // Name displayed in the OS bar of the window
+        "Adunnis" // Name displayed in the OS bar of the window
     }
 
     // Called once before the first frame
@@ -54,12 +57,12 @@ impl epi::App for App {
         // Get font
         let mut fonts = egui::FontDefinitions::default();
 
-        // Set button font size to 20pt
+        // Set font size to window_width / 36 for button text
         fonts.family_and_size.insert(
         egui::TextStyle::Button,
         (egui::FontFamily::Proportional, window_width / 36.0));
 
-        // Set heading font size to 28pt
+        // Set font size to window_width / 36 for title text
         fonts.family_and_size.insert(
             egui::TextStyle::Heading,
             (egui::FontFamily::Proportional, window_width / 30.0));
@@ -76,7 +79,7 @@ impl epi::App for App {
                 ui.style_mut().spacing.button_padding = egui::Vec2::new(space / 12.0, space / 20.0);
                 //ui.shrink_width_to_current(); trying to get the fucking buttons to all be the same width but no property for some reason fuck sake
                 ui.add_space(space);
-                ui.heading("dndthing");
+                ui.heading("Adunnis");
                 ui.add_space(space / 5.0);
                 if ui.button("Play").clicked() {  
                     self.interface.play();
@@ -90,15 +93,14 @@ impl epi::App for App {
                 if ui.button("Exit").clicked() {  
                     self.interface.exit();
                 }
-                // Dark/light mode shit
-                //let mut visuals = ui.visuals_mut().clone();
-                //visuals.light_dark_radio_buttons(ui);
-                //*ui.visuals_mut() = visuals;
-                //if ui.button("mode").clicked() {
-                    //egui::style::Visuals::light();
-                    //*ui.visuals_mut() = egui::style::Visuals::light();
-                    //println!("light mode enabled!");
-                //}
+                if ui.button("Mode toggle").clicked() {  
+                    self.dark_mode = !self.dark_mode;
+                    let mut visuals_type = Visuals::light();
+                    if self.dark_mode {
+                        visuals_type = Visuals::dark();
+                    }
+                    ctx.set_visuals(visuals_type);
+                }
             });
 
         });

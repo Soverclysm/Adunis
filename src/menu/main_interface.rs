@@ -1,5 +1,6 @@
 use std::process;
 
+#[derive(Default)]
 pub struct MainInterface {
 
 }
