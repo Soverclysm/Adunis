@@ -1,5 +1,7 @@
 # Adunis
 
+V0.1.4
+
 ## Current Plans
 
 - Menu
@@ -24,4 +26,5 @@
 ## Current Stack
 
 GUI: [egui](https://github.com/emilk/egui)
+
 (Undecided) Networking: Tokio/Axum/Poem/Actix

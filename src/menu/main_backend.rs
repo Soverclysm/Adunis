@@ -2,11 +2,10 @@
 #[derive(Default)]
 #[cfg_attr(feature = "persistence", derive(serde::Deserialize, serde::Serialize))]
 #[cfg_attr(feature = "persistence", serde(default))] // if we add new fields, give them default values when deserializing old state
-pub struct MainInterface {
-
+pub struct MainBackend {
 }
 
-impl MainInterface {
+impl MainBackend {
 
     pub fn play(&self) {
 
