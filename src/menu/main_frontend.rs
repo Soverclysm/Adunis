@@ -23,7 +23,7 @@ impl Default for App {
 
 impl epi::App for App {
     fn name(&self) -> &str {
-        "Adunnis" // Name displayed in the OS bar of the window
+        "Adunis" // Name displayed in the OS bar of the window
     }
 
     // Called once before the first frame
@@ -36,7 +36,14 @@ impl epi::App for App {
         // Load previous app state (if any).
         #[cfg(feature = "persistence")]
         if let Some(storage) = _storage {
-            *self = epi::get_value(storage, epi::APP_KEY).unwrap_or_default()
+            *self = epi::get_value(storage, epi::APP_KEY).unwrap_or_default();
+    
+            if self.dark_mode {
+            _ctx.set_visuals(Visuals::dark());
+            }   
+            else {
+                _ctx.set_visuals(Visuals::light());
+            }
         }
 
     }
@@ -91,7 +98,7 @@ impl epi::App for App {
                     self.interface.settings();
                 }
                 if ui.button("Exit").clicked() {  
-                    self.interface.exit();
+                    self.interface.exit(_frame);
                 }
                 if ui.button("Mode toggle").clicked() {  
                     self.dark_mode = !self.dark_mode;
