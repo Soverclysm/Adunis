@@ -1,6 +1,7 @@
-use eframe::{egui, epi};
+use super::button_expand::button_clicked;
 use super::main_backend::MainBackend;
 use super::main_frontend_collection::MainFrontendCollection;
+use eframe::{egui, epi};
 
 // We derive Deserialize/Serialize so we can persist app state on shutdown.
 #[cfg_attr(feature = "persistence", derive(serde::Deserialize, serde::Serialize))]
@@ -48,44 +49,34 @@ impl epi::App for App {
 
     /// Called each time the UI needs repainting, which may be many times per second
     fn update(&mut self, ctx: &egui::CtxRef, _frame: &epi::Frame) {
-
         let window_bounds = ctx.available_rect();
         let window_width = window_bounds.max.x - window_bounds.min.x;
 
         self.collection.assert_font(ctx, window_width);
-        
-        egui::SidePanel::left("side_panel").resizable(false).show(ctx, |ui| {
 
-            egui::warn_if_debug_build(ui);
-            ui.set_width(window_width / 3.4);
+        egui::SidePanel::left("side_panel")
+            .resizable(false)
+            .show(ctx, |ui| {
+                egui::warn_if_debug_build(ui);
+                ui.set_width(window_width / 3.4);
 
-            ui.vertical_centered(|ui| {
+                ui.vertical_centered(|ui| {
+                    self.collection.format_menu_panel(ui);
 
-                self.collection.format_menu_panel(ui);
-
-                // Buttons within the menu
-                if ui.button("Play").clicked() {  
-                    self.backend.play();
-                }
-                if ui.button("Create").clicked() {  
-                    self.backend.create();
-                }
-                if ui.button("Settings").clicked() {  
-                    self.backend.settings();
-                }
-                if ui.button("Exit").clicked() {  
-                    self.backend.exit(_frame);
-                }
-                if ui.button("Mode toggle").clicked() {  
-                    self.collection.theme_shift(ctx);
-                }
+                    // Buttons within the menu
+                    button_clicked!(
+                        ui,
+                        "Play" => { self.backend.play() },
+                        "Create" => { self.backend.create() },
+                        "Settings" => { self.backend.settings() },
+                        "Exit" => { self.backend.exit(_frame) },
+                        "Mode Toggle" => { self.collection.theme_shift(ctx) },
+                    );
+                });
             });
-
-        });
 
         egui::CentralPanel::default().show(ctx, |ui| {
             self.collection.generate_background_panel(ui);
         });
-
     }
 }
