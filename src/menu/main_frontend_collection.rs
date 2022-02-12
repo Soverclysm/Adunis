@@ -69,4 +69,11 @@ impl MainFrontendCollection {
         });
     }
 
+    pub fn get_mode_type(&mut self) -> &str {
+        match self.dark_mode {
+            true => {"☀"}
+            false => {"🌙"}
+        }
+    }
+
 }

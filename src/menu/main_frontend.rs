@@ -51,32 +51,47 @@ impl epi::App for App {
     fn update(&mut self, ctx: &egui::CtxRef, _frame: &epi::Frame) {
         let window_bounds = ctx.available_rect();
         let window_width = window_bounds.max.x - window_bounds.min.x;
+        let window_height = window_bounds.max.y - window_bounds.min.y;
 
         self.collection.assert_font(ctx, window_width);
 
-        egui::SidePanel::left("side_panel")
-            .resizable(false)
-            .show(ctx, |ui| {
-                egui::warn_if_debug_build(ui);
-                ui.set_width(window_width / 3.4);
+        
 
-                ui.vertical_centered(|ui| {
-                    self.collection.format_menu_panel(ui);
+        egui::SidePanel::left("side_panel").resizable(false).show(ctx, |ui| {
 
-                    // Buttons within the menu
-                    button_clicked!(
-                        ui,
-                        "Play" => { self.backend.play() },
-                        "Create" => { self.backend.create() },
-                        "Settings" => { self.backend.settings() },
-                        "Exit" => { self.backend.exit(_frame) },
-                        "Mode Toggle" => { self.collection.theme_shift(ctx) },
-                    );
-                });
+            egui::warn_if_debug_build(ui);
+            ui.set_width(window_width / 3.4);
+
+            ui.vertical_centered(|ui| {
+                self.collection.format_menu_panel(ui);
+
+                // Buttons within the menu
+                button_clicked!(ui,
+                    "Play" => { self.backend.play() },
+                    "Create" => { self.backend.create() },
+                    "Settings" => { self.backend.settings() },
+                    "Exit" => { self.backend.exit(_frame) },
+                );
             });
+        });
 
         egui::CentralPanel::default().show(ctx, |ui| {
             self.collection.generate_background_panel(ui);
         });
+
+        egui::TopBottomPanel::bottom("my_panel").show(ctx, |ui| {
+            ui.set_height(window_height / 12.0);
+            ui.add_space(window_height / 69.0);
+            ui.horizontal(|ui| {
+
+                button_clicked!(ui,
+                    self.collection.get_mode_type() => {self.collection.theme_shift(ctx)},
+                    "GH" => {},
+                );
+
+            });
+
+        });
+
     }
 }
